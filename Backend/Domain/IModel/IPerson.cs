@@ -1,8 +1,11 @@
-namespace Backend.Domain.IModel;
+namespace Domain.IModel;
 
 public interface IPerson
 {
+    Guid Id { get; }
     string Name { get; }
-    string Surname { get; }
     int Age { get; }
+
+    bool UpdateName(string newName);
+    bool UpdateAge(int newAge);
 }
