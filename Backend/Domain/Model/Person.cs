@@ -10,6 +10,7 @@ public class Person : IPerson
 
     public Person(string name, int age)
     {
+        Id = Guid.NewGuid();
         Name = name;
         Age = age;
     }

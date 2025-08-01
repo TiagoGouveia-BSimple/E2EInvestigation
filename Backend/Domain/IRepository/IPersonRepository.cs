@@ -4,8 +4,8 @@ namespace Domain.IRepository;
 
 public interface IPersonRepository
 {
-    Task<IPerson?> GetPersonByIdAsync(int id);
+    Task<IPerson?> GetPersonByIdAsync(Guid id);
     Task<IEnumerable<IPerson>> GetAllPersonsAsync();
     Task<IPerson?> AddPersonAsync(IPerson person);
-    Task DeletePersonAsync(int id);
+    Task DeletePersonAsync(Guid id);
 }

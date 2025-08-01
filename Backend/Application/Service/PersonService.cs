@@ -16,7 +16,7 @@ public class PersonService : IPersonService
         _personFactory = personFactory;
     }
 
-    public async Task<PersonDTO?> GetPersonByIdAsync(int id)
+    public async Task<PersonDTO?> GetPersonByIdAsync(Guid id)
     {
         var person = await _personRepository.GetPersonByIdAsync(id);
 
@@ -47,7 +47,7 @@ public class PersonService : IPersonService
         return new CreatedPersonDTO(createdPerson.Id, createdPerson.Name, createdPerson.Age);
     }
 
-    public async Task DeletePersonAsync(int id)
+    public async Task DeletePersonAsync(Guid id)
     {
         await _personRepository.DeletePersonAsync(id);
     }

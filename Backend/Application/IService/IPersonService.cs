@@ -4,9 +4,9 @@ namespace Application.IService
 {
     public interface IPersonService
     {
-        Task<PersonDTO?> GetPersonByIdAsync(int id);
+        Task<PersonDTO?> GetPersonByIdAsync(Guid id);
         Task<IEnumerable<PersonDTO>> GetAllPersonsAsync();
         Task<CreatedPersonDTO?> AddPersonAsync(CreatePersonDTO person);
-        Task DeletePersonAsync(int id);
+        Task DeletePersonAsync(Guid id);
     }
 }

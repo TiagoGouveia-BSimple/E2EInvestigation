@@ -24,7 +24,7 @@ public class PersonRepository : IPersonRepository
         return PersonMapper.MapToDomainModel(entity.Entity);
     }
 
-    public async Task DeletePersonAsync(int id)
+    public async Task DeletePersonAsync(Guid id)
     {
         var person = await _context.Persons.FindAsync(id);
         if (person != null)
@@ -42,7 +42,7 @@ public class PersonRepository : IPersonRepository
         return persons;
     }
 
-    public async Task<IPerson?> GetPersonByIdAsync(int id)
+    public async Task<IPerson?> GetPersonByIdAsync(Guid id)
     {
         var personDM = await _context.Persons.FindAsync(id);
         if (personDM == null)
