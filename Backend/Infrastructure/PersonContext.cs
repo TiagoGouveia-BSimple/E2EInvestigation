@@ -1,12 +1,13 @@
 using Domain.IModel;
 using Domain.Visitor;
+using Infrastructure.DataModel;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure;
 
 public class PersonContext : DbContext
 {
-    public DbSet<IPersonVisitor> Persons { get; set; }
+    public DbSet<PersonDataModel> Persons { get; set; }
 
     public PersonContext(DbContextOptions<PersonContext> options) : base(options)
     {
@@ -15,7 +16,7 @@ public class PersonContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<IPersonVisitor>();
+        modelBuilder.Entity<PersonDataModel>();
         base.OnModelCreating(modelBuilder);
     }
 }
