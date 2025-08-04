@@ -5,6 +5,18 @@ obj/
 
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
 
+# Ignorar a cache do Angular
+**/.angular/cache/
+
+# Ignorar ficheiros de build
+*.tsbuildinfo
+*.js.map
+*.metadata.json
+
+# Ignorar o package-lock 
+package-lock.json
+
+
 # Compiled output
 /dist
 /tmp
