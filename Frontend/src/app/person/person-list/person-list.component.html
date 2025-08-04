@@ -1,0 +1,12 @@
+<table>
+    <tr>
+        <th>Names</th>
+        <th>Actions</th>
+    </tr>
+    @for (person of personsInput; track person.id) {
+        <tr>
+            <td>{{person.name}}</td>
+            <td><button (click)="selectPerson(person)">Details</button></td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,13 @@
+<h1>Create Person</h1>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div>
+        <label for="name">Name:</label>
+        <input type="text" formControlName="name">
+    </div>
+    <div>
+        <label for="age">Age:</label>
+        <input type="number" formControlName="age">
+    </div>
+    <button type="submit" [disabled]="!form.valid">Create</button>
+    <button type="button" (click)="cancel()">Cancel</button>
+</form>

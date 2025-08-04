@@ -1,0 +1,14 @@
+@if (detailsSelected()) {
+    <app-person-details></app-person-details>
+}
+@if (createSelected()) {
+    <app-person-create></app-person-create>
+}
+
+@if (!detailsSelected() && !createSelected()) {
+    <app-person-list [personsInput]="persons()"></app-person-list>
+    <button (click)="createPerson()">Create Person</button>
+}
+
+
+
