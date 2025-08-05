@@ -7,7 +7,7 @@
 
 @if (!detailsSelected() && !createSelected()) {
     <app-person-list [personsInput]="persons()"></app-person-list>
-    <button (click)="createPerson()">Create Person</button>
+    <button class="createPerson" (click)="createPerson()">Create Person</button>
 }
 
 
