@@ -4,7 +4,7 @@ test.beforeEach(async ({page}) => {
   await page.goto('http://localhost:4200/');
 });
 
-test('Should create a new person and display the details page successfully', async ({ page }) => {
+test('should create a new person and display the details page successfully', async ({ page }) => {
   // act
   await page.getByRole('button', { name: 'Create Person' }).click();
   await page.getByRole('textbox').click();
@@ -24,4 +24,30 @@ test('Should create a new person and display the details page successfully', asy
   await expect(page.getByText('Name: Bruno')).toBeVisible();
   await expect(page.getByText('Age: 24')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Cancel' })).toBeVisible();
+});
+
+test('should not create person if age is under 0', async ({page}) => {
+  await page.getByRole('button', {name: 'Create Person'}).click();
+  await page.getByRole('textbox').click();
+  await page.getByRole('textbox').fill('Bruno');
+  await page.getByRole('spinbutton').click();
+  await page.getByRole('spinbutton').fill('-1');
+
+  await page.getByRole('button', { name: 'Create' }).click();
+
+  // should not create person, so the content shown is still the same
+  await expect(page.locator('app-person-create')).toBeVisible();
+});
+
+test('should not create person if age is over 120', async ({page}) => {
+  await page.getByRole('button', {name: 'Create Person'}).click();
+  await page.getByRole('textbox').click();
+  await page.getByRole('textbox').fill('Bruno');
+  await page.getByRole('spinbutton').click();
+  await page.getByRole('spinbutton').fill('121');
+
+  await page.getByRole('button', { name: 'Create' }).click();
+
+  // should not create person, so the content shown is still the same
+  await expect(page.locator('app-person-create')).toBeVisible();
 });

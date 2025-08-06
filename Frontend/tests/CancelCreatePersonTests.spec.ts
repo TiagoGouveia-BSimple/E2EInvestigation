@@ -4,7 +4,7 @@ test.beforeEach(async ({page}) => {
   await page.goto('http://localhost:4200/');
 });
 
-test('Should cancel create person and display person list', async ({page}) => {
+test('should cancel create person and display person list', async ({page}) => {
     // check if create form is displayed
     const listItemSize = await page.getByRole('listitem').count();
     await page.getByRole('button', { name: 'Create Person' }).click();
