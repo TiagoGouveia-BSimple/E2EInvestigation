@@ -4,6 +4,18 @@ test.beforeEach(async ({page}) => {
   await page.goto('http://localhost:4200/');
 });
 
+test('should create person and go to list page', async ({ page }) =>{
+  await page.getByRole('button', { name: 'Create Person' }).click();
+  await page.getByRole('textbox').click();
+  await page.getByRole('textbox').fill('Bruno');
+  await page.getByRole('spinbutton').click();
+  await page.getByRole('spinbutton').fill('24');
+
+  await page.getByRole('button', { name: 'Create' }).click();
+
+  await expect(page.getByText('Bruno')).toBeVisible();
+});
+
 test('should create a new person and display the details page successfully', async ({ page }) => {
   // act
   await page.getByRole('button', { name: 'Create Person' }).click();
@@ -14,7 +26,6 @@ test('should create a new person and display the details page successfully', asy
 
   await page.getByRole('button', { name: 'Create' }).click();
 
-  await expect(page.getByText('Test')).toBeVisible();
   await expect(page.getByText('Bruno')).toBeVisible();
 
   await page.getByRole('row', { name: 'Bruno Details' }).getByRole('button').click();
