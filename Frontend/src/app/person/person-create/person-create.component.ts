@@ -26,22 +26,27 @@ export class PersonCreateComponent{
   }
 
   onSubmit(){
-    const newPerson : NewPerson = {
-      name : this.form.value.name,
-      age: this.form.value.age
-    }
-
-    this.personDataService.createPerson(newPerson).subscribe({
-      next:(createdPerson) => {
-        console.log("created person: ", createdPerson);
-        const personVM = toPersonViewModel(createdPerson);
-        this.personSignalService.setCreatedPerson(personVM);
-        this.personSignalService.setCreateSelected(false);
-      },
-      error: (error) => {
-        console.error("Error creating person", error);
+    const age : number = this.form.value.age;
+    if(age < 0 || age > 120){
+      console.error("Error creating person. Age must be a valid number between 0 and 120")
+    }else{
+      const newPerson : NewPerson = {
+        name : this.form.value.name,
+        age: age,
       }
-    })
+
+      this.personDataService.createPerson(newPerson).subscribe({
+        next:(createdPerson) => {
+          console.log("created person: ", createdPerson);
+          const personVM = toPersonViewModel(createdPerson);
+          this.personSignalService.setCreatedPerson(personVM);
+          this.personSignalService.setCreateSelected(false);
+        },
+        error: (error) => {
+          console.error("Error creating person", error);
+        }
+      })
+    }
   }
 
   cancel(){
