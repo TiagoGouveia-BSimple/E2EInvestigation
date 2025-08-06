@@ -1,100 +1,77 @@
-const {By, Builder, Browser} = require('selenium-webdriver');
-const assert = require("assert");
+const { Builder, By, Browser, until } = require('selenium-webdriver');
+const chrome = require('selenium-webdriver/chrome');
+const assert = require('assert');
 
-(async function CreatePersonButtonTextTest() {
-    let driver = await new Builder()
-            .forBrowser(Browser.CHROME)
-            .build();
-    try {
-        await driver.get('http://localhost:4200');
+let driver;
 
-        const createPerson = await driver.findElement(By.className('createPerson'));
-        const text = await createPerson.getText();
+const chromeOptions = new chrome.Options();
+chromeOptions.addArguments('--headless');
 
-        assert.equal(text, "Create Person");
-    } catch (e) {
-        console.log(e);
-    } finally {
-        await driver.quit();
-    }
-}());
+describe('person app integration tests', function () {
+  this.timeout(30000); 
 
-(async function TitleAfterCreatePersonButtonClickedTest() {
-    let driver = await new Builder()
-            .forBrowser(Browser.CHROME)
-            .build();
-    try {
-        await driver.get('http://localhost:4200');
+  beforeEach(async () => {
+    driver = await new Builder()
+      .forBrowser(Browser.CHROME)
+      .setChromeOptions(chromeOptions)
+      .build();
+    await driver.get('http://localhost:4200');
+  });
 
-        const createPerson = await driver.findElement(By.className('createPerson'));
-        await createPerson.click();
+  afterEach(async () => {
+    await driver.quit();
+  });
 
-        const title = await driver.findElement(By.css('h1'));
-        const text = await title.getText();
+  it('should display "Create Person" on the button', async () => {
+    const createPerson = await driver.wait(until.elementLocated(By.className('createPerson')));
+    const text = await createPerson.getText();
+    assert.equal(text, "Create Person");
+  });
 
-        assert.equal(text, "Create Person");
-    } catch (e) {
-        console.log(e);
-    } finally {
-        await driver.quit();
-    }
-}());
+  it('should show title after Create Person button is clicked', async () => {
+    const createPerson = await driver.wait(until.elementLocated(By.className('createPerson')));
+    await createPerson.click();
 
-(async function NewRowNameCheckAfterCreated() {
-    let driver = await new Builder()
-            .forBrowser(Browser.CHROME)
-            .build();
-    try {
-        await driver.get('http://localhost:4200');
+    const title = await driver.wait(until.elementLocated(By.css('h1')), 5000);
+    const text = await title.getText();
 
-        const createPerson = await driver.findElement(By.className('createPerson'));
-        await createPerson.click();
+    assert.equal(text, "Create Person");
+  });
 
-        const inputs = await driver.findElements(By.css('input'));
-        await inputs[0].sendKeys('Ronaldo');
-        await inputs[1].sendKeys('1337');
+  it('should add a new row with name after creation', async () => {
+    const createPerson = await driver.wait(until.elementLocated(By.className('createPerson')));
+    await createPerson.click();
 
-        const submit = await driver.findElement(By.css('button'));
-        await submit.click();
+    const inputs = await driver.wait(until.elementsLocated(By.css('input')));
+    await inputs[0].sendKeys('Ronaldo');
+    await inputs[1].sendKeys('1337');
 
-        const row = await driver.findElements(By.className('name'));
-        const text = await row[row.length - 1].getText();
+    const submit = await driver.wait(until.elementLocated(By.css('button')));
+    await submit.click();
 
-        assert.equal(text, "Ronaldo");
-    } catch (e) {
-        console.log(e);
-    } finally {
-        await driver.quit();
-    }
-}());
+    const row = await driver.wait(until.elementsLocated(By.className('name')));
+    const text = await row[row.length - 1].getText();
 
-(async function NewAgeInDetailsCheckAfterCreated() {
-    let driver = await new Builder()
-            .forBrowser(Browser.CHROME)
-            .build();
-    try {
-        await driver.get('http://localhost:4200');
+    assert.equal(text, "Ronaldo");
+  });
 
-        const createPerson = await driver.findElement(By.className('createPerson'));
-        await createPerson.click();
+  it('should show correct age in details after person is created', async () => {
+    const createPerson = await driver.wait(until.elementLocated(By.className('createPerson')));
+    await createPerson.click();
 
-        const inputs = await driver.findElements(By.css('input'));
-        await inputs[0].sendKeys('Ronaldo');
-        await inputs[1].sendKeys('1337');
+    const inputs = await driver.wait(until.elementsLocated(By.css('input')));
+    await inputs[0].sendKeys('Ronaldo');
+    await inputs[1].sendKeys('1337');
 
-        const submit = await driver.findElement(By.css('button'));
-        await submit.click();
+    const submit = await driver.wait(until.elementLocated(By.css('button')));
+    await submit.click();
 
-        const details = await driver.findElements(By.className('details'));
-        await details[details.length - 1].click();
+    const details = await driver.wait(until.elementsLocated(By.className('details')));
+    await details[details.length - 1].click();
 
-        const age = await driver.findElement(By.className('age'));
-        const text = await age.getText();
+    const age = await driver.wait(until.elementLocated(By.className('age')));
+    const text = await age.getText();
 
-        assert.equal(text, "Age: 1337");
-    } catch (e) {
-        console.log(e);
-    } finally {
-        await driver.quit();
-    }
-}());
+    assert.equal(text, "Age: 1337");
+  });
+});
